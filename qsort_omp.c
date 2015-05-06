@@ -31,15 +31,15 @@ void swap(int *array, int i, int j) {
 int *init_array(int N)  {
   int *array = (int *) malloc(sizeof(int) * N);
   int i, j;
-  #pragma omp parallel private(i, j) shared(array, N)
-  #pragma omp for
+  //#pragma omp parallel private(i, j) shared(array, N)
+  //#pragma omp for
   for (i = 0; i < N; i++) {
     array[i] = i + 1;
   }
 
   srand(time(NULL));
-  #pragma omp parallel private(i, j) shared(array, N)
-  #pragma omp for
+  //#pragma omp parallel private(i, j) shared(array, N)
+  //#pragma omp for
   for (int i = 0; i < N; i++) {
     j = (rand()*1./RAND_MAX) * (N-1);
     swap(array, i, j);
@@ -99,13 +99,13 @@ void quicksort(int *array, int low, int high) {
   }
   int middle = partition(array, low, high);
   #pragma omp task
-  //if (low < middle) {
+  if (low < middle) {
       quicksort(array, low, middle-1);
-    //}
+    }
   #pragma omp task
-    //if (middle < high) {
+    if (middle < high) {
       quicksort(array, middle+1, high);
-    //}
+    }
 }
  
 // Main routine for testing quicksort
@@ -135,12 +135,10 @@ int main(int argc, char **argv) {
 #endif
 
 
-  #pragma omp parallel
+  #pragma omp parallel sections
   {
-    #pragma omp single
-    {
-      quicksort(array, 0, N-1);
-    }
+    #pragma omp section
+    quicksort(array, 0, N-1);
   }
 
 #ifdef DEBUG
