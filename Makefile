@@ -6,5 +6,5 @@ FLAGS = -std=c99 -fopenmp -g -lm
 CC = gcc
 
 %: %.c
-	$(CC) $(FLAGS) -o $@ $<
+	$(CC) -o $@ $< $(FLAGS)
 
