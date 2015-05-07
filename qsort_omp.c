@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 
 #define MINSIZE   10 		// threshold for switching to bubblesort
 

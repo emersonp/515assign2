@@ -50,6 +50,7 @@ int main(int argc, char **argv) {
   #pragma omp parallel for
   for (int i = 2; i <= limit; i++) {
     if (array[i] == 1) {
+      #pragma omp task
       for (int j = i+i; j <= N; j += i) 
         array[j] = 0;
     }
